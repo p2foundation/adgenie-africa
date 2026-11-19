@@ -1,0 +1,513 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fonts are self-hosted via next/font in app/layout.tsx:
+   --font-noto (Noto Sans, renders ɛ ɔ ŋ for Twi/Ga) and --font-grotesk
+   (Space Grotesk, display headings only). No render-blocking CDN import. */
+
+
+@layer base {
+  :root {
+    /* Dark mode is the base (dark glassmorphism) */
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+
+    --popover: 224 71% 4%;
+    --popover-foreground: 213 31% 91%;
+
+    /* Gold / Amber — the brand primary */
+    --primary: 43 96% 56%;
+    --primary-foreground: 224 71% 4%;
+
+    --secondary: 222 47% 11%;
+    --secondary-foreground: 213 31% 91%;
+
+    --muted: 223 47% 11%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 216 34% 17%;
+    --accent-foreground: 213 31% 91%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 43 96% 56%;
+
+    --radius: 0.75rem;
+
+    /* Custom brand tokens */
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --glow-gold: rgba(251, 191, 36, 0.15);
+    --glow-purple: rgba(139, 92, 246, 0.15);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-noto), ui-sans-serif, system-ui, sans-serif;
+    background-color: hsl(224, 71%, 4%);
+    overflow-x: hidden;
+  }
+
+  /* Display face for headings; missing glyphs fall back per-glyph to Noto,
+     so Twi/Ga headlines still render correctly. */
+  h1, h2, h3, .font-display {
+    font-family: var(--font-grotesk), var(--font-noto), ui-sans-serif, sans-serif;
+  }
+
+  /* Brand-kit look faces. A look picks one; the gallery cards, the kit card
+     and the canvas previews all read from these same stacks. */
+  .face-poster {
+    font-family: var(--font-poster), var(--font-grotesk), sans-serif;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .face-serif {
+    font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  }
+  .face-grotesk {
+    font-family: var(--font-grotesk), var(--font-noto), sans-serif;
+  }
+  .face-humanist {
+    font-family: var(--font-noto), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  /* Smooth scrolling. scroll-padding keeps anchor targets clear of the fixed
+     nav; motion-sensitive visitors get an instant jump instead. */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(5.5rem + env(safe-area-inset-top, 0px));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* Selection colour */
+  ::selection {
+    background: rgba(251, 191, 36, 0.25);
+    color: #fbbf24;
+  }
+}
+
+/* ── Glassmorphism utilities ────────────────────────────────────────────────── */
+@layer utilities {
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(251, 191, 36, 0.2);
+    box-shadow:
+      0 8px 40px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(251, 191, 36, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .glow-gold {
+    box-shadow:
+      0 0 20px var(--glow-gold),
+      0 0 60px var(--glow-gold);
+  }
+
+  .glow-text-gold {
+    filter: drop-shadow(0 0 24px rgba(251, 191, 36, 0.35));
+  }
+
+  .gradient-text {
+    display: inline-block;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #ef4444 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Hero headline: gold → amber → ember, without the red tail reading as an alert. */
+  .gradient-text-hero {
+    display: inline-block;
+    background: linear-gradient(100deg, #fde68a 0%, #fbbf24 35%, #f59e0b 70%, #ea580c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-cool {
+    display: inline-block;
+    background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .noise-bg {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  .border-glow {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(hsl(224, 71%, 5%), hsl(224, 71%, 5%)) padding-box,
+      linear-gradient(135deg, rgba(251, 191, 36, 0.4), rgba(139, 92, 246, 0.4)) border-box;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: hsl(224, 71%, 4%);
+    font-weight: 600;
+    box-shadow:
+      0 0 0 1px rgba(251, 191, 36, 0.3),
+      0 4px 20px rgba(245, 158, 11, 0.35);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-primary:hover {
+    box-shadow:
+      0 0 0 1px rgba(251, 191, 36, 0.5),
+      0 6px 28px rgba(245, 158, 11, 0.5);
+    transform: translateY(-1px);
+  }
+
+  /* Ambient background orbs */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .orb-gold {
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%);
+  }
+
+  .orb-purple {
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+  }
+
+  .orb-teal {
+    background: radial-gradient(circle, rgba(20, 184, 166, 0.08) 0%, transparent 70%);
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.03) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Scroll animation helpers */
+  .animate-in {
+    animation: slide-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Nav mount animation — replaces framer-motion initial/animate on <nav> */
+  @keyframes nav-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-nav-slide-in {
+    animation: nav-slide-in 0.5s ease-out both;
+  }
+
+  /* Touch targets — min 44px */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Horizontal chip rails that scroll without painting a scrollbar */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Toolbars pack a dozen chips into one row. On a phone those chips are thumb
+     targets, so every control inside a [data-touchbar] row grows to 44px —
+     desktop keeps its original density. */
+  @media (max-width: 640px) {
+    [data-touchbar] :is(button, a[href], select) {
+      min-height: 2.75rem;
+    }
+  }
+
+  /* App-shell content container. This is a pro tool opened on large
+     monitors, so it grows past Tailwind's max-w-7xl on 2xl screens
+     instead of leaving a narrow column beside the sidebar. */
+  .shell-wide {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 88rem; /* 1408px */
+  }
+  @media (min-width: 1536px) {
+    .shell-wide {
+      max-width: 100rem; /* 1600px */
+    }
+  }
+
+  /* ── Collapsible sidebar ──────────────────────────────────────────────── */
+
+  /* One variable drives both the rail width and the main column's offset,
+     so the two always move together. Plain CSS — survives purging. */
+  :root {
+    --sidebar-w: 16rem; /* 256px expanded, md–xl */
+  }
+  @media (min-width: 1280px) {
+    :root {
+      --sidebar-w: 18rem; /* 288px expanded at xl */
+    }
+  }
+  [data-sidebar="collapsed"] {
+    --sidebar-w: 5rem; /* 80px icon rail */
+  }
+  @media (min-width: 768px) {
+    .app-sidebar {
+      width: var(--sidebar-w);
+    }
+    .app-main {
+      padding-left: var(--sidebar-w);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .app-sidebar {
+        transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .app-main {
+        transition: padding-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
+  }
+
+  /* ── Global route progress ─────────────────────────────────────────────── */
+
+  /* A 2px blade of light pinned above the sticky chrome. Width is driven
+     imperatively from route-progress.tsx so it can retarget mid-trickle
+     without restarting a keyframe. */
+  .route-progress {
+    position: fixed;
+    inset: env(safe-area-inset-top, 0) 0 auto;
+    z-index: 100;
+    height: 2px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+  .route-progress[data-phase="loading"] {
+    opacity: 1;
+  }
+  .route-progress[data-phase="done"] {
+    opacity: 0;
+    transition: opacity 260ms ease 170ms;
+  }
+
+  .route-progress-bar {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transform: scaleX(0);
+    transform-origin: left center;
+    border-radius: 0 999px 999px 0;
+    background: linear-gradient(
+      90deg,
+      rgba(245, 158, 11, 0) 0%,
+      rgba(251, 191, 36, 0.85) 35%,
+      #fb923c 82%,
+      #fde68a 100%
+    );
+    box-shadow:
+      0 0 10px rgba(251, 146, 60, 0.55),
+      0 0 22px rgba(251, 191, 36, 0.28);
+    will-change: transform;
+  }
+
+  /* A highlight that keeps travelling while the line waits on the server. */
+  .route-progress[data-phase="loading"] .route-progress-bar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.75) 50%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: route-sheen 1.25s ease-in-out infinite;
+  }
+
+  @keyframes route-sheen {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .route-progress[data-phase="loading"] .route-progress-bar::after {
+      animation: none;
+      opacity: 0;
+    }
+  }
+
+  /* ── Landing showcase ───────────────────────────────────────────────────── */
+
+  /* Painted under the WebGL hero canvas; doubles as its no-WebGL fallback. */
+  .shader-fallback {
+    background:
+      radial-gradient(1100px 700px at 78% -8%, rgba(139, 92, 246, 0.28), transparent 60%),
+      radial-gradient(900px 600px at 12% 108%, rgba(251, 191, 36, 0.16), transparent 55%),
+      #06051a;
+  }
+
+  /* Hero demo card float */
+  .float-y {
+    animation: float-y 7s ease-in-out infinite;
+    will-change: transform;
+  }
+  @keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  /* Capability marquee */
+  .marquee-mask {
+    mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  }
+  .marquee-track {
+    animation: marquee 32s linear infinite;
+    will-change: transform;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* 3D tilt cards (verticals) */
+  .tilt-card {
+    transform: perspective(900px) rotateX(0deg) rotateY(0deg);
+    transform-style: preserve-3d;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s ease, background 0.3s ease;
+    --mx: 50%;
+    --my: 50%;
+  }
+  .tilt-card:hover {
+    border-color: rgba(251, 191, 36, 0.25);
+  }
+  .tilt-glare {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(
+      480px circle at var(--mx) var(--my),
+      rgba(251, 191, 36, 0.12),
+      transparent 42%
+    );
+  }
+  .tilt-card:hover .tilt-glare {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-y,
+    .marquee-track,
+    /* A spinner still has to spin — it is the only proof a request is alive.
+       Everything else that loops or slides should stop. */
+    .animate-pulse,
+    .animate-bounce,
+    .skeleton {
+      animation: none;
+    }
+    .skeleton {
+      background-position: 50% 0;
+    }
+    .animate-in,
+    .animate-nav-slide-in {
+      animation-duration: 1ms;
+    }
+    .tilt-card,
+    .glass-card,
+    .btn-primary {
+      transition: none;
+    }
+    .glass-card:hover,
+    .btn-primary:hover {
+      transform: none;
+    }
+  }
+
+  /* ── Notch / home-bar padding ─────────────────────────────────────────────
+     With viewport-fit=cover the fixed chrome sits under the safe area. Rather
+     than a class that fights the element's own padding, each piece adds its
+     inset inline: pt-[calc(<base>+env(safe-area-inset-top))]. */
+}
+
+/* ── Keyboard focus, globally ─────────────────────────────────────────────────
+   Deliberately written outside @layer: most controls in this app carry an
+   `outline-none` utility and signal focus with a 1px border tint, which is far
+   too quiet to hold on a dark shell. Dialog panels keep tabIndex="-1" so they
+   are skipped — the ring belongs on controls, not on the container. */
+:focus-visible:not([tabindex="-1"]) {
+  outline: 2px solid rgba(251, 191, 36, 0.8);
+  outline-offset: 2px;
+}
