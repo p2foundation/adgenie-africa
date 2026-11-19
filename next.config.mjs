@@ -1,9 +1,15 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import createNextIntlPlugin from "next-intl/plugin";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  turbopack: {
+    root: __dirname,
+  },
   reactStrictMode: true,
   allowedDevOrigins: [
     "192.168.*.*",
@@ -12,8 +18,7 @@ const nextConfig = {
     "127.0.0.1",
     "localhost",
   ],
-  // @adgenie/core ships raw TypeScript — Turbopack transpiles it in place.
-  transpilePackages: ["@adgenie/core", "framer-motion"],
+  transpilePackages: ["framer-motion"],
   images: {
     remotePatterns: [{ protocol: "https", hostname: "**.supabase.co" }],
     qualities: [75, 85],

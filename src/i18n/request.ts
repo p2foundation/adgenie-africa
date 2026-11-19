@@ -1,5 +1,9 @@
 import { getRequestConfig } from "next-intl/server";
 import { cookies } from "next/headers";
+import en from "../messages/en.json";
+import fr from "../messages/fr.json";
+import tw from "../messages/tw.json";
+import gaa from "../messages/gaa.json";
 
 // Supported locales
 export const locales = ["en", "fr", "tw", "gaa"] as const;
@@ -15,9 +19,7 @@ export default getRequestConfig(async () => {
       ? (localeCookie as Locale)
       : defaultLocale;
 
-  const messages = (
-    await import(`../../../../shared/i18n/${locale}.json`)
-  ).default;
+  const messages = { en, fr, tw, gaa }[locale];
 
   return { locale, messages };
 });

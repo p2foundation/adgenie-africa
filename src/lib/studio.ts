@@ -17,7 +17,7 @@ import type {
 
 /**
  * One brand kit, three creative engines, and the look that ties them together.
- * The kit's palette resolves to a look from `packages/core/src/brand-looks.ts`;
+ * The kit's palette resolves to a look from `src/core/brand-looks.ts`;
  * that look decides type, frame, pace and voice, so a kit with a different
  * palette renders differently rather than just recolouring the same layout.
  * Per-campaign overrides live in the campaign plan.

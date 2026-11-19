@@ -26,10 +26,10 @@
         "./src/*"
       ],
       "@adgenie/core": [
-        "../../packages/core/src/index.ts"
+        "./src/core/index.ts"
       ],
       "@adgenie/core/*": [
-        "../../packages/core/src/*"
+        "./src/core/*"
       ]
     },
     "target": "ES2017"

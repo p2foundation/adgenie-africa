@@ -1,0 +1,38 @@
+{
+  "campaign": {
+    "import": {
+      "empty": "Enter a page URL first.",
+      "noImages": "No suitable photos were found on this page.",
+      "readFailed": "We couldn't read this page. You can still fill in the details manually.",
+      "rightsRequired": "Confirm that you have the right to use these photos.",
+      "applied": "Applied your details and {photos} photos.",
+      "saveFailed": "We couldn't save these photos. Please try again.",
+      "partial": "{count} photo(s) were saved. You can retry the rest.",
+      "title": "Fill in your brief from a page",
+      "subtitle": "Read public details and preview photos before adding anything to your campaign.",
+      "productMode": "Product page",
+      "companyMode": "Company page",
+      "urlLabel": "Page URL",
+      "urlPlaceholder": "https://example.com/product",
+      "reading": "Reading page...",
+      "read": "Read this page",
+      "reviewTitle": "Review before applying",
+      "business": "Business",
+      "headline": "Headline",
+      "description": "Description",
+      "price": "Published price",
+      "full": "Your campaign already has the maximum number of photos.",
+      "choosePhotos": "Choose up to {count} photos",
+      "remove": "Remove",
+      "choose": "Choose",
+      "product": "Product",
+      "logo": "Logo",
+      "saved": "Saved",
+      "rights": "I have permission to use these product or logo photos, and they contain no identifiable person.",
+      "saving": "Saving...",
+      "applyWithPhotos": "Apply with {count} photo(s)",
+      "apply": "Apply details",
+      "replace": "Review carefully. Imported details will replace matching fields in your brief."
+    }
+  }
+}

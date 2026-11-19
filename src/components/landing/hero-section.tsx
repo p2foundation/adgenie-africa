@@ -11,7 +11,24 @@ import {
   useSpring,
 } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Sparkles, MousePointerClick, Languages, Play, Pause } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  CalendarDays,
+  Captions,
+  Clapperboard,
+  Clock3,
+  Image,
+  Languages,
+  MessageCircle,
+  MousePointerClick,
+  Palette,
+  Pause,
+  Play,
+  Smartphone,
+  Sparkles,
+  Utensils,
+} from "lucide-react";
 import { HeroShader } from "./hero-shader";
 import { BeforeAfter, type AdFormat } from "./before-after";
 import { FormatDeck } from "./format-deck";
@@ -24,18 +41,18 @@ const trustChips = [
 ];
 
 const marqueeItems = [
-  "Product ads",
-  "Event flyers",
-  "9:16 video",
-  "Twi & Ga copy",
-  "WhatsApp CTAs",
-  "Brand kits",
-  "Lookbooks",
-  "Menu highlights",
-  "Posting calendar",
-  "Captions + hashtags",
-  "1:1 · 4:5 · 9:16",
-  "Ready in minutes",
+  { label: "Product ads", icon: Image },
+  { label: "Event flyers", icon: CalendarDays },
+  { label: "9:16 video", icon: Clapperboard },
+  { label: "Twi & Ga copy", icon: Languages },
+  { label: "WhatsApp CTAs", icon: MessageCircle },
+  { label: "Brand kits", icon: Palette },
+  { label: "Lookbooks", icon: BookOpen },
+  { label: "Menu highlights", icon: Utensils },
+  { label: "Posting calendar", icon: CalendarDays },
+  { label: "Captions + hashtags", icon: Captions },
+  { label: "1:1 · 4:5 · 9:16", icon: Smartphone },
+  { label: "Ready in minutes", icon: Clock3 },
 ];
 
 const container = {
@@ -341,22 +358,83 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Capability marquee */}
-      <div className="relative z-10 border-y border-white/5 bg-black/25 py-3 backdrop-blur-sm">
-        <div className="marquee-mask overflow-hidden">
-          <div className="marquee-track flex w-max shrink-0 items-center gap-8 pr-8">
-            {[...marqueeItems, ...marqueeItems].map((m, i) => (
-              <span
-                key={`${m}-${i}`}
-                className="flex shrink-0 items-center gap-8 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.2em] text-white/40"
+      <motion.section
+        aria-labelledby="campaign-capabilities-title"
+        className="relative z-10 isolate overflow-hidden border-y border-white/[0.08] bg-[#080914]/80 py-10 backdrop-blur-xl sm:py-14"
+        initial={
+          reduced
+            ? false
+            : { opacity: 0, y: 64, scale: 0.985, filter: "blur(10px)" }
+        }
+        whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(139,92,246,0.12),transparent_65%)]" />
+          <div className="absolute -left-24 top-4 h-48 w-48 rounded-full bg-amber-400/[0.08] blur-3xl" />
+          <div className="absolute -right-20 bottom-0 h-56 w-56 rounded-full bg-violet-500/[0.09] blur-3xl" />
+          <CalendarDays className="absolute right-[12%] top-5 h-16 w-16 rotate-12 text-white/[0.025]" />
+          <Languages className="absolute bottom-4 left-[9%] h-14 w-14 -rotate-12 text-amber-200/[0.035]" />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-7 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="mb-2 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-amber-200/75">
+                <span className="h-px w-6 bg-amber-300/70" />
+                One brief. Every touchpoint.
+              </p>
+              <h2
+                id="campaign-capabilities-title"
+                className="font-display text-xl font-semibold tracking-tight text-white sm:text-2xl"
               >
-                {m}
-                <span className="h-1 w-1 shrink-0 rounded-full bg-amber-400/60" />
-              </span>
-            ))}
+                Your whole campaign, in motion.
+              </h2>
+            </div>
+            <p className="max-w-md text-sm leading-relaxed text-white/45 sm:text-right">
+              From the first product frame to the post-ready caption, made for
+              the way you do business.
+            </p>
+          </div>
+
+          <div
+            className="marquee-mask overflow-hidden"
+            role="region"
+            aria-label="AdGenie campaign capabilities"
+          >
+            <div className="marquee-track flex">
+              {[0, 1].map((loop) => (
+                <div
+                  key={loop}
+                  aria-hidden={loop === 1}
+                  className="marquee-sequence flex shrink-0 items-center gap-3 pr-3"
+                >
+                  {marqueeItems.map(({ label, icon: Icon }, index) => (
+                    <span
+                      key={label}
+                      className="marquee-card group relative flex min-h-[76px] shrink-0 items-center gap-3 overflow-hidden rounded-2xl border border-white/[0.09] bg-white/[0.035] px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,0.18)] transition-colors duration-300 hover:border-amber-200/25 hover:bg-white/[0.06] sm:min-h-[84px] sm:px-5"
+                    >
+                      <span className="pointer-events-none absolute -right-5 -top-6 h-16 w-16 rounded-full bg-amber-300/[0.08] blur-2xl transition-colors group-hover:bg-amber-300/[0.16]" />
+                      <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-200/[0.12] bg-amber-200/[0.06] text-amber-100/80 transition-colors group-hover:border-amber-200/25 group-hover:text-amber-100">
+                        <Icon aria-hidden className="h-[18px] w-[18px]" strokeWidth={1.6} />
+                      </span>
+                      <span className="relative flex flex-col gap-1">
+                        <span className="text-[9px] font-medium uppercase tracking-[0.18em] text-white/30">
+                          {String(index + 1).padStart(2, "0")} / AdGenie
+                        </span>
+                        <span className="marquee-label whitespace-nowrap text-sm font-medium text-white/80">
+                          {label}
+                        </span>
+                      </span>
+                    </span>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </motion.section>
     </section>
   );
 }

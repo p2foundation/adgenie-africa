@@ -35,7 +35,7 @@ const SAMPLE: Record<StudioVertical, { headline: string; price: string; offer: s
  * The style gallery. A look is a palette plus a frame: picking one writes the
  * two colour columns and the voice the kit already stores, so no schema change
  * is needed and a look survives a reload because the palette resolves back to
- * it. The advisor is deterministic scoring in `packages/core` — it has to
+ * it. The advisor is deterministic scoring in `src/core` — it has to
  * answer while the page is still loading, so it cannot be a model call.
  */
 export function LookGallery({

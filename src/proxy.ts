@@ -26,7 +26,7 @@ function lifetimeLeftMs(token: string): number | null {
   }
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const token = request.cookies.get(SESSION_COOKIE)?.value;
   if (!token) return NextResponse.next();
 

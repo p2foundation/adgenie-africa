@@ -431,12 +431,16 @@
 
   /* Capability marquee */
   .marquee-mask {
-    mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
-    -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 5%, black 95%, transparent);
   }
   .marquee-track {
-    animation: marquee 32s linear infinite;
+    width: max-content;
+    animation: marquee 76s linear infinite;
     will-change: transform;
+  }
+  .marquee-mask:hover .marquee-track {
+    animation-play-state: paused;
   }
   @keyframes marquee {
     from { transform: translateX(0); }
@@ -477,6 +481,35 @@
     .animate-bounce,
     .skeleton {
       animation: none;
+    }
+    .marquee-mask {
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+    .marquee-track {
+      width: 100%;
+    }
+    .marquee-sequence {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
+      width: 100%;
+      padding-right: 0;
+    }
+    .marquee-card {
+      width: 100%;
+      min-width: 0;
+    }
+    .marquee-label {
+      white-space: normal;
+    }
+    .marquee-sequence[aria-hidden="true"] {
+      display: none;
+    }
+    @media (max-width: 480px) {
+      .marquee-sequence {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
     .skeleton {
       background-position: 50% 0;

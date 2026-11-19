@@ -1,0 +1,38 @@
+{
+  "campaign": {
+    "import": {
+      "empty": "Saisissez d’abord l’URL d’une page.",
+      "noImages": "Aucune photo adaptée n’a été trouvée sur cette page.",
+      "readFailed": "Impossible de lire cette page. Vous pouvez toujours saisir les informations manuellement.",
+      "rightsRequired": "Confirmez que vous avez le droit d’utiliser ces photos.",
+      "applied": "Informations et {photos} photo(s) ajoutées.",
+      "saveFailed": "Impossible d’enregistrer ces photos. Réessayez.",
+      "partial": "{count} photo(s) enregistrée(s). Vous pouvez réessayer pour les autres.",
+      "title": "Remplir votre brief à partir d’une page",
+      "subtitle": "Consultez les informations publiques et prévisualisez les photos avant de les ajouter à votre campagne.",
+      "productMode": "Page produit",
+      "companyMode": "Page entreprise",
+      "urlLabel": "URL de la page",
+      "urlPlaceholder": "https://exemple.com/produit",
+      "reading": "Lecture de la page...",
+      "read": "Lire cette page",
+      "reviewTitle": "Vérifiez avant d’appliquer",
+      "business": "Entreprise",
+      "headline": "Titre",
+      "description": "Description",
+      "price": "Prix publié",
+      "full": "Votre campagne contient déjà le nombre maximal de photos.",
+      "choosePhotos": "Choisissez jusqu’à {count} photo(s)",
+      "remove": "Retirer",
+      "choose": "Choisir",
+      "product": "Produit",
+      "logo": "Logo",
+      "saved": "Enregistrée",
+      "rights": "J’ai le droit d’utiliser ces photos de produit ou de logo, et elles ne montrent aucune personne identifiable.",
+      "saving": "Enregistrement...",
+      "applyWithPhotos": "Appliquer avec {count} photo(s)",
+      "apply": "Appliquer les informations",
+      "replace": "Vérifiez attentivement. Les informations importées remplaceront les champs correspondants de votre brief."
+    }
+  }
+}
