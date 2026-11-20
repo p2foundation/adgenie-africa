@@ -56,6 +56,7 @@ interface Props {
     phone: string;
   };
   resumePaymentId?: string | null;
+  initialPlanCode?: string | null;
 }
 
 type Phase = "form" | "submitting" | "verifying" | "success" | "failed";
@@ -80,7 +81,13 @@ function walletSummary(wallet: WalletInfo | null, guessedLabel?: string | null):
   return [label, holder].filter(Boolean).join(" · ");
 }
 
-export function CheckoutBoard({ plans, options, defaults, resumePaymentId }: Props) {
+export function CheckoutBoard({
+  plans,
+  options,
+  defaults,
+  resumePaymentId,
+  initialPlanCode,
+}: Props) {
   const router = useRouter();
   const [openPlan, setOpenPlan] = useState<CheckoutPlan | null>(null);
   const [tender, setTender] = useState<PaymentTenderId>("mobile_money");
@@ -129,11 +136,12 @@ export function CheckoutBoard({ plans, options, defaults, resumePaymentId }: Pro
   function close() {
     if (phase === "submitting") return;
     setOpenPlan(null);
-    // A resumed payment is a one-shot deep link. Once the customer closes the
-    // dialog the address should stop advertising a payment that is no longer open.
-    if (resumePaymentId) {
+    // A resumed payment or deep-linked plan is a one-shot link. Once the customer
+    // closes the dialog the address should stop advertising it.
+    if (resumePaymentId || initialPlanCode) {
       const params = new URLSearchParams(window.location.search);
       params.delete("resume");
+      params.delete("plan");
       const query = params.toString();
       resumeHandled.current = null;
       router.replace(query ? `/credits?${query}` : "/credits", { scroll: false });
@@ -286,6 +294,12 @@ export function CheckoutBoard({ plans, options, defaults, resumePaymentId }: Pro
     resumeHandled.current = resumePaymentId;
     void resumePayment(resumePaymentId);
   }, [resumePaymentId, resumePayment]);
+
+  useEffect(() => {
+    if (!initialPlanCode || resumePaymentId || openPlan) return;
+    const plan = plans.find((p) => p.code === initialPlanCode);
+    if (plan) open(plan);
+  }, [initialPlanCode, plans, resumePaymentId, openPlan]);
 
   // Poll while the customer is on the screen; pause in a background tab and
   // resume immediately when they come back.

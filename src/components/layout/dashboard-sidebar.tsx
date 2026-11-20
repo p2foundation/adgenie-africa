@@ -167,20 +167,30 @@ function SidebarContent({
 
         {/* Credit balance — the number that matters most */}
         {collapsed ? (
-          <div className="glass rounded-xl py-3 text-center relative overflow-hidden" title="Credits">
+          <Link
+            href="/credits?plan=topup#plans"
+            onClick={onClose}
+            className="block glass rounded-xl py-3 text-center relative overflow-hidden hover:border-amber-400/40 transition-colors touch-target group"
+            title="Credits — click to top up"
+          >
             <div
-              className="absolute -right-6 -top-8 w-24 h-24 rounded-full bg-amber-500/10 blur-2xl"
+              className="pointer-events-none absolute -right-6 -top-8 w-24 h-24 rounded-full bg-amber-500/10 blur-2xl"
               aria-hidden="true"
             />
-            <Zap className="w-4 h-4 text-amber-400 mx-auto" />
-            <p className="font-display text-lg font-bold text-white leading-none mt-1.5 tabular-nums">
-              {balance ?? "—"}
-            </p>
-          </div>
+            <div className="relative z-10">
+              <Zap className="w-4 h-4 text-amber-400 mx-auto group-hover:scale-110 transition-transform" />
+              <p className="font-display text-lg font-bold text-white leading-none mt-1.5 tabular-nums">
+                {balance ?? "—"}
+              </p>
+            </div>
+          </Link>
         ) : (
           <div className="glass rounded-xl px-4 py-3.5 relative overflow-hidden">
-            <div className="absolute -right-6 -top-8 w-24 h-24 rounded-full bg-amber-500/10 blur-2xl" aria-hidden="true" />
-            <div className="flex items-center justify-between">
+            <div
+              className="pointer-events-none absolute -right-6 -top-8 w-24 h-24 rounded-full bg-amber-500/10 blur-2xl"
+              aria-hidden="true"
+            />
+            <div className="relative z-10 flex items-center justify-between">
               <div>
                 <p className="text-[11px] uppercase tracking-widest text-white/35 mb-1 flex items-center gap-1.5">
                   <Zap className="w-3 h-3 text-amber-400" />
@@ -191,8 +201,9 @@ function SidebarContent({
                 </p>
               </div>
               <Link
-                href="/credits"
-                className="text-xs text-amber-300 hover:text-amber-200 font-semibold"
+                href="/credits?plan=topup#plans"
+                onClick={onClose}
+                className="relative z-20 text-xs text-amber-300 hover:text-amber-200 font-semibold p-2 -mr-2 rounded-lg hover:bg-amber-400/10 transition-colors touch-target flex items-center gap-1 cursor-pointer"
               >
                 Top up →
               </Link>

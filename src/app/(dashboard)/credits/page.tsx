@@ -107,7 +107,7 @@ const FALLBACK_OPTIONS: PaymentOptions = {
 export default async function CreditsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ paymentsPage?: string; resume?: string }>;
+  searchParams: Promise<{ paymentsPage?: string; resume?: string; plan?: string }>;
 }) {
   const params = await searchParams;
   const requested = Number.parseInt(params.paymentsPage ?? "1", 10);
@@ -226,6 +226,7 @@ export default async function CreditsPage({
           options={options}
           defaults={defaults}
           resumePaymentId={resumePaymentId}
+          initialPlanCode={params.plan ?? null}
         />
         <p className="mt-6 text-xs text-white/25">
             Top-up credits never expire. Monthly credits refresh each billing period.{" "}
